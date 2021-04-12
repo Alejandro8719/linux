@@ -1,0 +1,1 @@
+sudo sh VMware-Workstation-Full-16.1.1-17801498.x86_64.bundle --eulas-agreed --set-setting=vmware-workstation serialNumber YF390-0HF8P-M81RQ-2DXQE-M2UT6
