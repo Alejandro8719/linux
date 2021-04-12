@@ -1,0 +1,64 @@
+loadkeys es
+ip link
+ip link set wlan0 up
+iwlist
+iwconfig wlan essid AleckRoom
+iwconfig wlan essid AleckRoom key s: fdsagfdsa
+wpa_passphrase AleckRoom aleckroom1234 > /etc/wifi
+wpa_supplicant -B -i wlan0 -D wext -c /etc/wifi
+ls /sys/firmware/efi/efivars
+timedatectl set-ntp true
+timedatectl status
+lsblk
+particionar...
+mkswap /dev/sdaX
+swapon /dev/sdaX
+mkfs.ext4 /dev/sdaY
+mount /dev/sdaY /mnt
+mkdir -p /mnt/boot
+mount /dev/sdaY /mnt
+pacstrap /mnt base linux linux-firmware neovim neofetch
+genfstab -U /mnt >> /mnt/etc/fstab
+arch-chroot /mnt
+ln -sf /usr/share/zoneinfo/America/Guayaquil /etc/localtime
+hwclock --systohc
+echo "LANG=es_EC.UTF-8" > /etc/locale.conf
+echo "KEYMAP=latam" > /etc/vconsole.conf
+echo "AleckArch" > /etc/hostname
+echo "127.0.0.1 localhost" > /etc/hosts
+nvim /etc/locale.gen destagear es_EC
+locale-gen
+passwd --clave root
+useradd -G wheel -m aleck  -- usuario
+passwd aleck --clave de usuario
+bootctl --path=/boot install
+nvim /boot/loader/loader.conf
+	default arch
+	timeout 3
+	editor 0
+echo $(blkid -s PARTUUID -o value /dev/sdaY) > /boot/loader/entries/arch.conf
+nvim /boot/loader/entries/arch.conf
+title ArchLinux
+linux /vmlinuz-linux
+initrd /initramfs-linux.img
+options root=PARTUUID=14420948-2cea-4de7-b042-40f67c618660 rw
+pacman -S iw wpa_supplicant dialog elinks dhcpcd network-manager 
+umount -R /mnt
+umount -R /mnt/boot
+reboot
+ip link
+ip link set nuevonombre up
+systemctl start NetworkManager.service
+systemctl enable NetworkManager.service
+nmcli dev wifi connect AleckRoom password aleckroom1234
+localectl set-keymap la-latin1
+pacman –S xorg-server xorg-xinit lightdm​ lightdm-gtk-greeter
+pacman –S xf86-video-ati
+pacman –S qtile picom feh alacritty rofi thunar​
+systemctl enable lightdm​
+systemctl reboot​
+
+pacman -S arandr
+
+amd
+pacman -S mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon
